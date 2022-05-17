@@ -1,37 +1,40 @@
-## laravel swoole redis pool
+# Swoole Redis Pool cache and session driver for Laravel
 
-Laravel package to provide swoole redis pool integration,laravel redis pool cache and session driver. Aims to avoid redis server timeout exception
+Default Laravel redis connection may cause errors when running in Swoole coroutines.   
+This package adds support of Swoole RedisPool as a cache and session driver for Laravel.   
+This is a fork of `falcolee/laravel-swoole-redis` package, original idea belongs to https://github.com/falcolee.
 
-```$xslt
-    public $config = [
-        //min 3
-        'poolMin'         => 3,
-        //max 1000
-        'poolMax'         => 64,
-        //when lost connection retry
-        'retryTimes'      => 2,
-
-        //options config
-        'connect_timeout' => 1,
-        'timeout'         => 1,
-        'reconnect'       => 1
-    ];
+## Installation
+### Step 1: 
+Install package
+```shell
+composer require antyblin/laravel-swoole-redis
 ```
 
-## install
-`composer require falcolee/laravel-swoole-redis`
+### Step 2:   
+Add `redis_pool` store to the `stores` section in `config/cache.php`:
 
-## how to use
- * step 1: make true you've got a right swoole environment  
- * step 2:
-add
-```
+```php
     'redis_pool' => [
         'driver' => 'redis',
         'connection' => 'default',
     ],
 ```
-in your config/cache.php `stores` section below `redis` array
 
-* step 3: change your redis drive or session drive to `redis_pool` in your `.env` file , that is it
+### Step 3:   
+Change your redis driver or session driver to `redis_pool` in your `.env` file and that is it.
 
+## Config
+You may add additional parameter `'pool_size'` to the redis section in `config/database.php`.
+This parameter sets maximum quantity of connections in RedisPool. 
+
+```php
+    'default' => [
+        'url' => env('REDIS_URL'),
+        'host' => env('REDIS_HOST'),
+        'password' => env('REDIS_PASSWORD'),
+        'port' => env('REDIS_PORT'),
+        'database' => env('REDIS_CACHE_DB'),
+        'pool_size' => env('REDIS_POOL_SIZE', 64)
+    ],
+```

@@ -1,30 +1,37 @@
 {
-    "name": "falcolee/laravel-swoole-redis",
-    "description": "Laravel package to provide swoole redis pool integration,laravel redis pool cache and session driver. Aims to avoid redis server timeout exception",
+    "name": "antyblin/laravel-swoole-redis",
+    "description": "Laravel package to provide swoole redis pool integration, Laravel redis pool cache and session driver.",
     "license": "MIT",
     "keywords": [
         "laravel swoole redis pool",
-        "laravel seoole redis cache",
-        "laravel seoole session driver"
+        "laravel swoole redis cache",
+        "laravel swoole session driver"
     ],
-    "homepage": "https://github.com/falcolee/laravel-swoole-redis",
+    "homepage": "https://github.com/antyblin/laravel-swoole-redis",
     "authors": [
         {
             "name": "Falco Lee",
             "email": "skylzl1007@gmail.com",
             "homepage": "https://github.com/falcolee",
             "role": "Developer"
+        },
+        {
+            "name": "Pavel Kotlyarov",
+            "homepage": "https://github.com/antyblin",
+            "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=5.6.4",
+        "php": ">=7.4",
         "illuminate/support": "^5.0|^6.0|^7.0|^8.0"
     },
     "require-dev": {
+        "swoole/ide-helper": "@dev",
+        "laravel/framework": "^8.1"
     },
     "autoload": {
         "psr-4": {
-            "Falcolee\\SwooleRedis\\": "src"
+            "Antyblin\\SwooleRedis\\": "src"
         }
     },
     "autoload-dev": {
@@ -32,7 +39,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Falcolee\\SwooleRedis\\SwooleRedisServiceProvider"
+                "Antyblin\\SwooleRedis\\SwooleRedisServiceProvider"
             ]
         }
     }
