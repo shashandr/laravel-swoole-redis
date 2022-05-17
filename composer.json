@@ -1,6 +1,6 @@
 {
     "name": "antyblin/laravel-swoole-redis",
-    "description": "Laravel package to provide Swoole redis pool integration, Laravel redis pool cache and session driver.",
+    "description": "Laravel package to provide swoole redis pool integration, Laravel redis pool cache and session driver.",
     "license": "MIT",
     "keywords": [
         "laravel swoole redis pool",
@@ -16,8 +16,7 @@
             "role": "Developer"
         },
         {
-            "name": "Pavel Kotlyarov",
-            "email": "antyblin@gmail.com",
+            "name": "antyblin",
             "homepage": "https://github.com/antyblin",
             "role": "Developer"
         }
