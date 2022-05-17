@@ -61,7 +61,7 @@ class SwooleRedisServiceProvider extends ServiceProvider
     protected function registerCache()
     {
         $this->app->afterResolving('cache', function (CacheManager $manager) {
-            $manager->extend('redis_pool_store', function ($app) use ($manager) {
+            $manager->extend('redis_pool', function ($app) use ($manager) {
                 return $manager->repository(new SwooleRedisStore($app->make('redis_pool'),
                         config('cache.prefix'),
                         config("cache.stores.redis_pool.connection", 'default'))
