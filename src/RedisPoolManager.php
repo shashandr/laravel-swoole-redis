@@ -1,18 +1,20 @@
 <?php
 /**
- * 功能说明
- * User: falco
- * Date: 4/26/21
+ * @author: falco, antyblin
+ * Date: 5/17/22
  * Time: 10:53 AM
  */
 
-namespace Falcolee\SwooleRedis;
+namespace Antyblin\SwooleRedis;
 
-use InvalidArgumentException;
 use Illuminate\Contracts\Redis\Factory;
+use InvalidArgumentException;
+use Swoole\Database\RedisConfig;
+use Swoole\Database\RedisPool;
 
 class RedisPoolManager implements Factory
 {
+
     /**
      * The Redis server configurations.
      *
@@ -27,25 +29,26 @@ class RedisPoolManager implements Factory
      */
     protected $connections;
 
-    protected $autoFill;
 
     /**
      * Create a new Redis manager instance.
      *
      * @param  string  $driver
      * @param  array  $config
+     *
      * @return void
      */
-    public function __construct(array $config,$autoFill=false)
+    public function __construct(array $config)
     {
         $this->config = $config;
-        $this->autoFill = $autoFill;
     }
+
 
     /**
      * Get a Redis pool connection by name.
      *
      * @param  string|null  $name
+     *
      * @return
      */
     public function connection($name = null)
@@ -58,10 +61,12 @@ class RedisPoolManager implements Factory
         return $this->connections[$name] = $this->resolve($name);
     }
 
+
     /**
      * Resolve the given connection by name.
      *
      * @param  string|null  $name
+     *
      * @return \Illuminate\Redis\Connections\Connection
      *
      * @throws \InvalidArgumentException
@@ -81,17 +86,27 @@ class RedisPoolManager implements Factory
         );
     }
 
+
     /**
      * @param $config
      * @param $options
-     * @return \Illuminate\Redis\Connections\Connection
+     *
+     * @return SwooleRedisPoolConnection
      */
-    public function connect($config,$options=[]){
-        return new SwooleRedisPoolConnection(new SwooleRedisPool($config,$this->autoFill));
+    public function connect(array $config, $options = [])
+    {
+        $redisConfig = (new RedisConfig())
+            ->withHost($config['host'])
+            ->withDbIndex($config['database'])
+            ->withPort($config['port'])
+            ->withAuth($config['password']);
+
+        return new SwooleRedisPoolConnection(new RedisPool($redisConfig, $config['pool_size'] ?? 64));
     }
 
+
     /**
-     * Return all of the created connections.
+     * Return all created connections.
      *
      * @return array
      */
