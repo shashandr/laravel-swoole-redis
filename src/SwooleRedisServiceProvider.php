@@ -1,6 +1,6 @@
 <?php
 
-namespace Antyblin\SwooleRedis;
+namespace Shashandr\SwooleRedis;
 
 use Illuminate\Cache\CacheManager;
 use Illuminate\Session\CacheBasedSessionHandler;
@@ -9,10 +9,10 @@ use Illuminate\Support\ServiceProvider;
 
 class SwooleRedisServiceProvider extends ServiceProvider
 {
-
+    
     protected $defer = false;
-
-
+    
+    
     /**
      * Bootstrap the application services.
      *
@@ -21,8 +21,8 @@ class SwooleRedisServiceProvider extends ServiceProvider
     public function boot()
     {
     }
-
-
+    
+    
     /**
      * Register the service provider.
      *
@@ -34,20 +34,20 @@ class SwooleRedisServiceProvider extends ServiceProvider
         $this->registerCache();
         $this->registerSession();
     }
-
-
+    
+    
     protected function registerRedisPoolStore()
     {
         $this->app->singleton(RedisPoolManager::class, function ($app) {
             $config = $app->make('config')->get('database.redis');
-
+            
             return new RedisPoolManager($config);
         });
-
+        
         $this->app->alias(RedisPoolManager::class, 'redis_pool');
     }
-
-
+    
+    
     protected function registerSession()
     {
         $this->app->afterResolving('session', function (SessionManager $manager) {
@@ -56,15 +56,18 @@ class SwooleRedisServiceProvider extends ServiceProvider
             });
         });
     }
-
-
+    
+    
     protected function registerCache()
     {
         $this->app->afterResolving('cache', function (CacheManager $manager) {
             $manager->extend('redis_pool', function ($app) use ($manager) {
-                return $manager->repository(new SwooleRedisStore($app->make('redis_pool'),
+                return $manager->repository(
+                    new SwooleRedisStore(
+                        $app->make('redis_pool'),
                         config('cache.prefix'),
-                        config("cache.stores.redis_pool.connection", 'default'))
+                        config("cache.stores.redis_pool.connection", 'default'),
+                    ),
                 );
             });
         });
