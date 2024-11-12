@@ -2,13 +2,13 @@
 
 Default Laravel redis connection may cause errors when running in Swoole coroutines.   
 This package adds support of Swoole RedisPool as a cache and session driver for Laravel.   
-This is a fork of `falcolee/laravel-swoole-redis` package, original idea belongs to https://github.com/falcolee.
+This is a fork of `antyblin/laravel-swoole-redis` package, original idea belongs to https://github.com/antyblin.
 
 ## Installation
 ### Step 1: 
 Install package
 ```shell
-composer require antyblin/laravel-swoole-redis
+composer require shashandr/laravel-swoole-redis
 ```
 
 ### Step 2:   
